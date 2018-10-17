@@ -21,7 +21,7 @@ locals {
       asg_desired_capacity = 1
       asg_max_size         = 10
       asg_min_size         = 1
-      instance_type        = "t3.nano"
+      instance_type        = "t3.small"
       key_name             = "${aws_key_pair.provisioning_key.id}"
       spot_price           = "0.003"
       root_volume_size     = "20"
