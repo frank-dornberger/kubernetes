@@ -45,6 +45,14 @@ module "vpc" {
   single_nat_gateway     = true
   one_nat_gateway_per_az = false
 
+  private_subnet_tags = {
+    "kubernetes.io/cluster/frank-cluster-1" = "owned"
+  }
+
+  vpc_tags = {
+    "kubernetes.io/cluster/frank-cluster-1" = "owned"
+  }
+
   tags = "${merge(
     local.common_tags,
   )}"
