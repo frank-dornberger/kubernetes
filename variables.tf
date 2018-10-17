@@ -9,3 +9,7 @@ variable "bucket_name" {
 variable "app_name" {
   default = "hello_world"
 }
+
+variable "new_relic_api_key" {}
+
+variable "email_address" {}

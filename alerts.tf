@@ -1,5 +1,5 @@
 provider "newrelic" {
-  api_key = "XXXYYYZZZ"
+  api_key = "${var.new_relic_api_key}"
 }
 
 resource "newrelic_alert_policy" "apm" {
@@ -49,7 +49,7 @@ resource "newrelic_alert_channel" "email" {
   type = "email"
 
   configuration = {
-    recipients              = "frank@MYSECRETEMAIL.ch"
+    recipients              = "${var.email_address}"
     include_json_attachment = "0"
   }
 }
