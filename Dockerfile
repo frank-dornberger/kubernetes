@@ -7,3 +7,4 @@ RUN \
         sed -i -e 's/"REPLACE_WITH_REAL_KEY"/"XXXYYYZZZ"/' \
      -e 's/newrelic.appname = "PHP Application"/newrelic.appname = "hello_world"/' \
          /usr/local/etc/php/conf.d/newrelic.ini
+EXPOSE 80
