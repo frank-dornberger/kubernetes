@@ -15,6 +15,20 @@ locals {
     Terraform   = "true"
     Environment = "dev"
   }
+
+  workers_group_defaults = [
+    {
+      asg_desired_capacity = 1
+      asg_max_size         = 10
+      asg_min_size         = 1
+      instance_type        = "t3.nano"
+      key_name             = "${aws_key_pair.provisioning_key.id}"
+      spot_price           = "0.003"
+      root_volume_size     = "20"
+      name                 = "worker_group_a"
+      additional_userdata  = ""
+    },
+  ]
 }
 
 module "vpc" {
@@ -30,6 +44,24 @@ module "vpc" {
   enable_nat_gateway     = true
   single_nat_gateway     = true
   one_nat_gateway_per_az = false
+
+  tags = "${merge(
+    local.common_tags,
+  )}"
+}
+
+resource "aws_key_pair" "provisioning_key" {
+  key_name   = "provisioning_key"
+  public_key = "${file("../../.ssh/provisioning_key.pub")}"
+}
+
+module "eks" {
+  source                         = "terraform-aws-modules/eks/aws"
+  cluster_name                   = "frank-cluster-1"
+  subnets                        = ["${module.vpc.private_subnets[0]}", "${module.vpc.private_subnets[1]}", "${module.vpc.private_subnets[2]}"]
+  vpc_id                         = "${module.vpc.vpc_id}"
+  create_elb_service_linked_role = true
+  workers_group_defaults         = "${local.workers_group_defaults}"
 
   tags = "${merge(
     local.common_tags,
