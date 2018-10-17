@@ -1,5 +1,5 @@
 # EKS cluster with New Relic monitoring
-The purpose of this repository is to showcase how simple it can be to spin up an EKS cluster on AWS, deploy an app and monitor infrastructure, application, and browser using New Relic.
+The purpose of this repository is to showcase how simple it can be to spin up an EKS cluster on AWS, deploy an app and monitor infrastructure, application and browser, and creating alerts using New Relic.
 
 ## EKS cluster
 The cluster is spun up in its dedicated VPC, using a private topology and a single NAT-Gateway for access to the internet. The nodes will be created randomly in one of the three private availability zones, using T3 small spot instances, resulting in a much lower monthly bill.
@@ -67,3 +67,6 @@ Once, everything has been provisioned and deployed, you can run this command to 
 ```bash
 kubectl get service | grep "hello-world" | awk {'print $4'}
 ```
+
+## Alerting
+The `alerts.tf` file will create alerts for the error rate of your application and the total page load time in a user's browser, and send a notification email to the indicated email address. Before it will work, you'll have to provide a valid API key and email address in the configuration.
