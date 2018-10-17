@@ -5,3 +5,7 @@ variable "region" {
 variable "bucket_name" {
   default = "frank-terraform-state-bucket"
 }
+
+variable "app_name" {
+  default = "hello_world"
+}
