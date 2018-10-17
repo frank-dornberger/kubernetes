@@ -75,3 +75,7 @@ module "eks" {
     local.common_tags,
   )}"
 }
+
+resource "aws_ecr_repository" "hello_world" {
+  name = "hello_world"
+}
