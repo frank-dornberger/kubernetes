@@ -49,6 +49,10 @@ module "vpc" {
     "kubernetes.io/cluster/frank-cluster-1" = "owned"
   }
 
+  public_subnet_tags = {
+    "kubernetes.io/cluster/frank-cluster-1" = "owned"
+  }
+
   vpc_tags = {
     "kubernetes.io/cluster/frank-cluster-1" = "owned"
   }
