@@ -13,3 +13,7 @@ plan.terraform
 
 # EKS authentication file
 config-map-aws-auth*
+
+# New relic infrastructure monitoring
+newrelic-infrastructure-k8s-latest.yaml
+kube-state-metrics-release-1.3/*
