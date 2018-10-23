@@ -83,3 +83,94 @@ module "eks" {
 resource "aws_ecr_repository" "hello_world" {
   name = "hello_world"
 }
+
+# Warum geht source .env nicht???
+resource "null_resource" "set_kubeconfig" {
+  depends_on = ["module.eks"]
+
+  provisioner "local-exec" {
+    command = "touch .env && echo 'export KUBECONFIG=./kubeconfig_frank-cluster-1' > .env"
+  }
+}
+
+resource "null_resource" "ecr_login" {
+  depends_on = ["aws_ecr_repository.hello_world"]
+
+  provisioner "local-exec" {
+    command = "$(aws ecr get-login --no-include-email --region eu-west-1)"
+  }
+
+  triggers = {
+    page_sha1 = "${sha1(file("public/index.php"))}"
+  }
+}
+
+resource "null_resource" "increase_version" {
+  provisioner "local-exec" {
+    command = "expr $(cat Version) + 1 > Version"
+  }
+
+  triggers = {
+    page_sha1 = "${sha1(file("public/index.php"))}"
+  }
+}
+
+resource "null_resource" "docker_build" {
+  depends_on = ["null_resource.increase_version"]
+
+  provisioner "local-exec" {
+    command = "docker build -t hello_world:${chomp(file("Version"))} ."
+  }
+
+  triggers = {
+    page_sha1 = "${sha1(file("public/index.php"))}"
+  }
+}
+
+resource "null_resource" "docker_tag" {
+  depends_on = ["aws_ecr_repository.hello_world", "null_resource.docker_build"]
+
+  provisioner "local-exec" {
+    command = "docker tag hello_world:${chomp(file("Version"))} ${aws_ecr_repository.hello_world.repository_url}:${chomp(file("Version"))}"
+  }
+
+  triggers = {
+    page_sha1 = "${sha1(file("public/index.php"))}"
+  }
+}
+
+resource "null_resource" "docker_push" {
+  depends_on = ["null_resource.docker_tag"]
+
+  provisioner "local-exec" {
+    command = "docker push ${aws_ecr_repository.hello_world.repository_url}:${chomp(file("Version"))}"
+  }
+
+  triggers = {
+    page_sha1 = "${sha1(file("public/index.php"))}"
+  }
+}
+
+resource "null_resource" "complete_deploy_file" {
+  depends_on = ["null_resource.increase_version"]
+
+  provisioner "local-exec" {
+    command = "sed -i '' 's@image.*@image: ${aws_ecr_repository.hello_world.repository_url}:${chomp(file("Version"))}@g' hello-world-deployment.yaml"
+  }
+
+  triggers = {
+    page_sha1 = "${sha1(file("public/index.php"))}"
+  }
+}
+
+resource "null_resource" "deploy_application" {
+  depends_on = ["module.eks", "null_resource.docker_push", "null_resource.complete_deploy_file"]
+
+  provisioner "local-exec" {
+    command = "kubectl apply -f hello-world-deployment.yaml --kubeconfig ./kubeconfig_frank-cluster-1"
+  }
+
+  triggers = {
+    page_sha1 = "${sha1(file("public/index.php"))}"
+  }
+}
