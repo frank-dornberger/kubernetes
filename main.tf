@@ -174,3 +174,19 @@ resource "null_resource" "deploy_application" {
     page_sha1 = "${sha1(file("public/index.php"))}"
   }
 }
+
+resource "null_resource" "deploy_monitoring_dependencies" {
+  depends_on = ["module.eks"]
+
+  provisioner "local-exec" {
+    command = "kubectl apply -f kube-state-metrics-release-1.3/kubernetes --kubeconfig ./kubeconfig_frank-cluster-1"
+  }
+}
+
+resource "null_resource" "deploy_monitoring" {
+  depends_on = ["module.eks", "null_resource.deploy_monitoring_dependencies"]
+
+  provisioner "local-exec" {
+    command = "kubectl apply -f newrelic-infrastructure-k8s-latest.yaml --kubeconfig ./kubeconfig_frank-cluster-1"
+  }
+}
