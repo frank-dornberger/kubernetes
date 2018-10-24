@@ -1,16 +1,16 @@
-provider "newrelic" {
-  api_key = "${var.new_relic_api_key}"
-}
-
 resource "newrelic_alert_policy" "apm" {
   name = "${var.app_name} - APM - Production (managed by Terraform)"
+}
+
+data "newrelic_application" "app" {
+  name = "hello_world"
 }
 
 resource "newrelic_alert_condition" "error_percentage" {
   policy_id       = "${newrelic_alert_policy.apm.id}"
   name            = "${var.app_name} - Error Percentage"
   type            = "apm_app_metric"
-  entities        = ["602115"]
+  entities        = ["${data.newrelic_application.app.id}"]
   condition_scope = "application"
   metric          = "error_percentage"
 
@@ -31,7 +31,7 @@ resource "newrelic_alert_condition" "total_page_load" {
   policy_id   = "${newrelic_alert_policy.browser.id}"
   name        = "${var.app_name} - Total Page Load"
   type        = "browser_metric"
-  entities    = ["602115"]
+  entities    = ["${data.newrelic_application.app.id}"]
   metric      = "total_page_load"
   runbook_url = ""
 
