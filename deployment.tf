@@ -15,7 +15,8 @@ resource "null_resource" "ecr_login" {
   }
 
   triggers = {
-    page_sha1 = "${sha1(file("public/index.php"))}"
+    page_sha1      = "${sha1(file("public/index.php"))}"
+    container_sha1 = "${sha1(file("Dockerfile"))}"
   }
 }
 
@@ -25,7 +26,8 @@ resource "null_resource" "increase_version" {
   }
 
   triggers = {
-    page_sha1 = "${sha1(file("public/index.php"))}"
+    page_sha1      = "${sha1(file("public/index.php"))}"
+    container_sha1 = "${sha1(file("Dockerfile"))}"
   }
 }
 
@@ -37,7 +39,8 @@ resource "null_resource" "docker_build" {
   }
 
   triggers = {
-    page_sha1 = "${sha1(file("public/index.php"))}"
+    page_sha1      = "${sha1(file("public/index.php"))}"
+    container_sha1 = "${sha1(file("Dockerfile"))}"
   }
 }
 
@@ -49,7 +52,8 @@ resource "null_resource" "docker_tag" {
   }
 
   triggers = {
-    page_sha1 = "${sha1(file("public/index.php"))}"
+    page_sha1      = "${sha1(file("public/index.php"))}"
+    container_sha1 = "${sha1(file("Dockerfile"))}"
   }
 }
 
@@ -61,7 +65,8 @@ resource "null_resource" "docker_push" {
   }
 
   triggers = {
-    page_sha1 = "${sha1(file("public/index.php"))}"
+    page_sha1      = "${sha1(file("public/index.php"))}"
+    container_sha1 = "${sha1(file("Dockerfile"))}"
   }
 }
 
@@ -73,7 +78,8 @@ resource "null_resource" "complete_deploy_file" {
   }
 
   triggers = {
-    page_sha1 = "${sha1(file("public/index.php"))}"
+    page_sha1      = "${sha1(file("public/index.php"))}"
+    container_sha1 = "${sha1(file("Dockerfile"))}"
   }
 }
 
@@ -85,7 +91,8 @@ resource "null_resource" "deploy_application" {
   }
 
   triggers = {
-    page_sha1 = "${sha1(file("public/index.php"))}"
+    page_sha1      = "${sha1(file("public/index.php"))}"
+    container_sha1 = "${sha1(file("Dockerfile"))}"
   }
 }
 
@@ -97,7 +104,8 @@ resource "null_resource" "validate_deployment" {
   }
 
   triggers = {
-    page_sha1 = "${sha1(file("public/index.php"))}"
+    page_sha1      = "${sha1(file("public/index.php"))}"
+    container_sha1 = "${sha1(file("Dockerfile"))}"
   }
 }
 
@@ -114,5 +122,9 @@ resource "null_resource" "deploy_monitoring" {
 
   provisioner "local-exec" {
     command = "kubectl apply -f newrelic-infrastructure-k8s-latest.yaml --kubeconfig ./kubeconfig_frank-cluster-1"
+  }
+
+  triggers = {
+    page_sha1 = "${sha1(file("newrelic-infrastructure-k8s-latest.yaml"))}"
   }
 }
