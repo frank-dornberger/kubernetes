@@ -1,5 +1,5 @@
 resource "newrelic_alert_policy" "apm" {
-  name = "${var.app_name} - APM - Production (managed by Terraform)"
+  name = "${var.app_name} - APM - Production (managed through Terraform)"
 }
 
 data "newrelic_application" "app" {
@@ -24,7 +24,7 @@ resource "newrelic_alert_condition" "error_percentage" {
 }
 
 resource "newrelic_alert_policy" "browser" {
-  name = "${var.app_name} - Browser - Production (managed by Terraform)"
+  name = "${var.app_name} - Browser - Production (managed through Terraform)"
 }
 
 resource "newrelic_alert_condition" "total_page_load" {
