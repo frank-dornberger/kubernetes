@@ -1,9 +1,9 @@
-resource "newrelic_alert_policy" "apm" {
-  name = "${var.app_name} - APM - Production (managed through Terraform)"
-}
-
 data "newrelic_application" "app" {
   name = "hello_world"
+}
+
+resource "newrelic_alert_policy" "apm" {
+  name = "${var.app_name} - APM - Production (managed through Terraform)"
 }
 
 resource "newrelic_alert_condition" "error_percentage" {
