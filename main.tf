@@ -175,6 +175,18 @@ resource "null_resource" "deploy_application" {
   }
 }
 
+resource "null_resource" "validate_deployment" {
+  depends_on = ["null_resource.deploy_application"]
+
+  provisioner "local-exec" {
+    command = "open http://$(kubectl get ingress -n lpt | grep top-deals | awk {'print $3'})"
+  }
+
+  triggers = {
+    page_sha1 = "${sha1(file("public/index.php"))}"
+  }
+}
+
 resource "null_resource" "deploy_monitoring_dependencies" {
   depends_on = ["module.eks"]
 
