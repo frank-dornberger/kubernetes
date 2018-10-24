@@ -10,6 +10,10 @@ provider "aws" {
   region = "${var.region}"
 }
 
+provider "newrelic" {
+  api_key = "${var.new_relic_api_key}"
+}
+
 locals {
   common_tags = {
     Terraform   = "true"
