@@ -1,7 +1,7 @@
 resource "newrelic_dashboard" "exampledash" {
   icon     = "dashboard"
   editable = "editable_by_owner"
-  title    = "hello_world Business board (managed through Terraform)"
+  title    = "hello_world board (Terraform)"
 
   widget {
     title         = "no threshold support :'("
@@ -58,12 +58,12 @@ resource "newrelic_dashboard" "exampledash" {
   }
 
   widget {
-    title         = "Throughput per HTTP status code"
+    title         = "Throughput per Browser & Version"
     row           = 3
     column        = 1
     width         = 1
     visualization = "faceted_area_chart"
-    nrql          = "SELECT count(*) from Transaction WHERE appName = '${var.app_name}' TIMESERIES AUTO FACET httpResponseCode"
+    nrql          = "SELECT count(*) FROM PageView WHERE appName = '${var.app_name}' FACET userAgentName, userAgentVersion TIMESERIES AUTO "
   }
 
   widget {
