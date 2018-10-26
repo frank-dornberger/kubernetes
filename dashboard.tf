@@ -1,4 +1,4 @@
-resource "newrelic_dashboard" "exampledash" {
+resource "newrelic_dashboard" "hello_world" {
   icon     = "dashboard"
   editable = "editable_by_owner"
   title    = "hello_world board (Terraform)"
