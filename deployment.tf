@@ -1,9 +1,6 @@
-# Warum geht source .env nicht???
 resource "null_resource" "set_kubeconfig" {
-  depends_on = ["module.eks"]
-
   provisioner "local-exec" {
-    command = "touch .env && echo 'export KUBECONFIG=./kubeconfig_frank-cluster-1' > .env"
+    command = "echo 'export KUBECONFIG=./kubeconfig_frank-cluster-1' > .env && source .env"
   }
 }
 
