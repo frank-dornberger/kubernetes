@@ -100,7 +100,7 @@ resource "null_resource" "validate_deployment" {
   depends_on = ["null_resource.deploy_application"]
 
   provisioner "local-exec" {
-    command = "open http://$(kubectl get ingress -n lpt | grep top-deals | awk {'print $3'})"
+    command = "open http://$(kubectl get service --kubeconfig ./kubeconfig_frank-cluster-1 | grep hello-world | awk {'print $4'})"
   }
 
   triggers = {
