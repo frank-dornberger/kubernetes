@@ -58,7 +58,7 @@ resource "null_resource" "docker_tag" {
 }
 
 resource "null_resource" "docker_push" {
-  depends_on = ["null_resource.docker_tag"]
+  depends_on = ["null_resource.docker_tag", "null_resource.ecr_login"]
 
   provisioner "local-exec" {
     command = "docker push ${aws_ecr_repository.hello_world.repository_url}:${chomp(file("Version"))}"
