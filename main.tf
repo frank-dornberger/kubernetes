@@ -27,10 +27,11 @@ locals {
       asg_min_size         = 1
       instance_type        = "t3.small"
       key_name             = "${aws_key_pair.provisioning_key.id}"
-      spot_price           = "0.01"
-      root_volume_size     = "20"
-      name                 = "worker_group_a"
-      additional_userdata  = ""
+
+      # spot_price           = "0.01"
+      root_volume_size    = "20"
+      name                = "worker_group_a"
+      additional_userdata = ""
     },
   ]
 }
