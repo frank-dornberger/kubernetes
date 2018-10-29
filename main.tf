@@ -36,10 +36,10 @@ locals {
 }
 
 module "vpc" {
-  source = "terraform-aws-modules/vpc/aws"
-
-  name = "kubernetes-vpc"
-  cidr = "10.0.0.0/16"
+  source  = "terraform-aws-modules/vpc/aws"
+  version = "1.46.0"
+  name    = "kubernetes-vpc"
+  cidr    = "10.0.0.0/16"
 
   azs             = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
   private_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
@@ -73,6 +73,7 @@ resource "aws_key_pair" "provisioning_key" {
 
 module "eks" {
   source                         = "terraform-aws-modules/eks/aws"
+  version                        = "1.7.0"
   cluster_name                   = "frank-cluster-1"
   subnets                        = ["${module.vpc.private_subnets[0]}", "${module.vpc.private_subnets[1]}", "${module.vpc.private_subnets[2]}"]
   vpc_id                         = "${module.vpc.vpc_id}"
