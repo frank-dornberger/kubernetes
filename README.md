@@ -1,5 +1,5 @@
 # EKS cluster with New Relic monitoring
-The purpose of this repository is to showcase how simple it can be to spin up an EKS cluster on AWS, deploy an app and monitor infrastructure, application and browser, and creating alerts using New Relic.
+The purpose of this repository is to showcase how simple it can be to spin up an EKS cluster on AWS, build and deploy an app. In addition it also whows how to monitor infrastructure, application and browser, and how to create alerts and a dashboard using New Relic.
 
 ## EKS cluster
 The cluster is spun up in its dedicated VPC, using a private topology and a single NAT-Gateway for access to the internet. The nodes will be created randomly in one of the three private availability zones, using T3 small spot instances, resulting in a much lower monthly bill.
