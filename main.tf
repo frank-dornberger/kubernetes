@@ -27,11 +27,11 @@ locals {
       asg_min_size         = 1
       instance_type        = "t3.small"
       key_name             = "${aws_key_pair.provisioning_key.id}"
+      root_volume_size     = "20"
+      name                 = "worker_group_a"
+      additional_userdata  = ""
 
       # spot_price           = "0.01"
-      root_volume_size    = "20"
-      name                = "worker_group_a"
-      additional_userdata = ""
     },
   ]
 }
@@ -73,13 +73,12 @@ resource "aws_key_pair" "provisioning_key" {
 }
 
 module "eks" {
-  source                         = "terraform-aws-modules/eks/aws"
-  version                        = "1.7.0"
-  cluster_name                   = "frank-cluster-1"
-  subnets                        = ["${module.vpc.private_subnets[0]}", "${module.vpc.private_subnets[1]}", "${module.vpc.private_subnets[2]}"]
-  vpc_id                         = "${module.vpc.vpc_id}"
-  create_elb_service_linked_role = true
-  workers_group_defaults         = "${local.workers_group_defaults}"
+  source                 = "terraform-aws-modules/eks/aws"
+  version                = "1.7.0"
+  cluster_name           = "frank-cluster-1"
+  subnets                = ["${module.vpc.private_subnets[0]}", "${module.vpc.private_subnets[1]}", "${module.vpc.private_subnets[2]}"]
+  vpc_id                 = "${module.vpc.vpc_id}"
+  workers_group_defaults = "${local.workers_group_defaults}"
 
   tags = "${merge(
     local.common_tags,
