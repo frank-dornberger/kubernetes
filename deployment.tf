@@ -97,7 +97,20 @@ resource "null_resource" "validate_deployment" {
   depends_on = ["null_resource.deploy_application"]
 
   provisioner "local-exec" {
-    command = "open http://$(kubectl get service --kubeconfig ./kubeconfig_frank-cluster-1 | grep hello-world | awk {'print $4'})"
+    command = "sleep 30 && open http://$(kubectl get service --kubeconfig ./kubeconfig_frank-cluster-1 | grep hello-world | awk {'print $4'})"
+  }
+
+  triggers = {
+    page_sha1      = "${sha1(file("public/index.php"))}"
+    container_sha1 = "${sha1(file("Dockerfile"))}"
+  }
+}
+
+resource "null_resource" "deployment_notification" {
+  depends_on = ["null_resource.deploy_application"]
+
+  provisioner "local-exec" {
+    command = "afplay /System/Library/Sounds/Funk.aiff && afplay /System/Library/Sounds/Funk.aiff && afplay /System/Library/Sounds/Funk.aiff"
   }
 
   triggers = {
