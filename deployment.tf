@@ -123,7 +123,7 @@ resource "null_resource" "deploy_monitoring_dependencies" {
   depends_on = ["module.eks"]
 
   provisioner "local-exec" {
-    command = "kubectl apply -f kube-state-metrics-release-1.3/kubernetes --kubeconfig ./kubeconfig_frank-cluster-1"
+    command = "kubectl apply -f kube-state-metrics-release-1.5/kubernetes --kubeconfig ./kubeconfig_frank-cluster-1"
   }
 }
 

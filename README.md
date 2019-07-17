@@ -38,9 +38,9 @@ brew install kubernetes-cli
 The infrastructure is monitored with New Relic, leveraging the capabilities of the `kube-state-metrics` server, which can be downloaded like this:
 
 ```bash
-curl -o kube-state-metrics-1.3.zip https://codeload.github.com/kubernetes/kube-state-metrics/zip/release-1.3 &&
-unzip kube-state-metrics-1.3.zip &&
-rm kube-state-metrics-1.3.zip
+curl -o kube-state-metrics-1.5.zip https://codeload.github.com/kubernetes/kube-state-metrics/zip/release-1.5 &&
+unzip kube-state-metrics-1.5.zip &&
+rm kube-state-metrics-1.5.zip
 ```
 
 You'll have to insert a valid License key in the `newrelic-infrastructure-k8s-latest.yaml` file in order for it to work.

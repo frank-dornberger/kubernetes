@@ -12,6 +12,7 @@
 #   treatRedirectAsFailure = false
 #   policy_id              = "${newrelic_alert_policy.browser.id}"
 # }
+
 # resource "newrelic_synthetics_monitor" "simple_browser_example" {
 #   name                   = "${var.app_name} Simple Browser Monitor"
 #   type                   = "browser"
@@ -24,6 +25,7 @@
 #   verifySSL              = false
 #   policy_id              = "${newrelic_alert_policy.browser.id}"
 # }
+
 # resource "newrelic_synthetics_monitor" "scripted_browser_example" {
 #   name                   = "${var.app_name} Scripted Browser Monitor"
 #   type                   = "scripted_browser"
