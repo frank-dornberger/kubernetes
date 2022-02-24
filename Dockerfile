@@ -1,4 +1,4 @@
-FROM php:5.6-apache
+FROM php:8.1.2-cli-bullseye
 COPY public/ /var/www/html/
 RUN \
   curl -L https://download.newrelic.com/php_agent/release/newrelic-php5-8.3.0.226-linux.tar.gz | tar -C /tmp -zx && \
