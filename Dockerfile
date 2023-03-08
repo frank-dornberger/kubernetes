@@ -1,4 +1,4 @@
-FROM php:bullseye
+FROM cgr.dev/chainguard/php:latest
 COPY public/ /var/www/html/
 RUN \
   curl -L https://download.newrelic.com/php_agent/release/newrelic-php5-8.3.0.226-linux.tar.gz | tar -C /tmp -zx && \
